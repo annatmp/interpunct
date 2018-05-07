@@ -1,0 +1,42 @@
+<application>
+  <component name="VimSettings">
+    <state version="4" enabled="false" />
+    <globalmarks />
+    <filemarks>
+      <file name="$USER_HOME$/PycharmProjects/interpunctnew/trainer/strategies/bayes.py" timestamp="1525682714777">
+        <mark key="[" line="416" column="23" />
+        <mark key="]" line="416" column="23" />
+        <mark key="." line="416" column="23" />
+      </file>
+    </filemarks>
+    <jumps />
+    <registers>
+      <register name="1" type="4">
+        <text>ible_sentences = []
+        contains = None</text>
+      </register>
+      <register name="&quot;" type="4">
+        <text>activeRules1</text>
+      </register>
+      <register name="-" type="4">
+        <text>activeRules1</text>
+      </register>
+    </registers>
+    <search>
+      <last-dir>0</last-dir>
+      <show-last>false</show-last>
+    </search>
+    <history />
+    <shortcut-conflicts>
+      <shortcut-conflict owner="vim">
+        <text>ctrl pressed C</text>
+      </shortcut-conflict>
+      <shortcut-conflict owner="ide">
+        <text>ctrl pressed V</text>
+      </shortcut-conflict>
+      <shortcut-conflict owner="vim">
+        <text>ctrl pressed B</text>
+      </shortcut-conflict>
+    </shortcut-conflicts>
+  </component>
+</application>
