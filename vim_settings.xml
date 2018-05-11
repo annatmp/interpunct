@@ -1,6 +1,6 @@
 <application>
   <component name="VimSettings">
-    <state version="4" enabled="true" />
+    <state version="4" enabled="false" />
     <globalmarks />
     <filemarks>
       <file name="/manage.py@interpunct" timestamp="1526041155229">
@@ -17,8 +17,8 @@
       <file name="$USER_HOME$/PycharmProjects/interpunct/trainer/views.py" timestamp="1526041081627">
         <mark key="[" line="3" column="30" />
       </file>
-      <file name="$USER_HOME$/PycharmProjects/interpunct/trainer/strategies/bayes.py" timestamp="1526040778920">
-        <mark key="[" line="0" column="0" />
+      <file name="$USER_HOME$/PycharmProjects/interpunct/trainer/strategies/bayes.py" timestamp="1526041960777">
+        <mark key="[" line="0" column="2" />
         <mark key="]" line="0" column="1" />
         <mark key="." line="0" column="1" />
       </file>
