@@ -2,13 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c27e21c9-abfd-4383-9be3-1ce7a89018f8" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/dataSources/fe72a3de-f1c1-4f1c-b670-270448ae747f.xml" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/dataSources/fe72a3de-f1c1-4f1c-b670-270448ae747f/storage_v2/_src_/schema/main.uQUzAA.meta" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
-      <change beforePath="$PROJECT_DIR$/trainer/strategies/bayes.py" afterPath="$PROJECT_DIR$/trainer/strategies/bayes.py" />
     </list>
     <ignored path="interpunct.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -717,13 +712,6 @@
       <option name="presentableId" value="Default" />
       <updated>1479331318085</updated>
     </task>
-    <task id="LOCAL-00024" summary="- corrected redirection after registration for subdir installations">
-      <created>1495630242166</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1495630242166</updated>
-    </task>
     <task id="LOCAL-00025" summary="- display correct sentence with rule hints after task submission">
       <created>1495660964056</created>
       <option name="number" value="00025" />
@@ -1060,7 +1048,14 @@
       <option name="project" value="LOCAL" />
       <updated>1526470600085</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="selects new rule and set it as current">
+      <created>1526473564055</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1526473564055</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1132,7 +1127,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- changed rule order&#10;- reduced number of rules to 30&#10;- metadata is stored explicitly&#10;- finishing message on uplevel screen" />
     <MESSAGE value="- fixed bug in rule file formatting" />
     <MESSAGE value="- bootstrap grid changed to col-xs-&#10;- uname parameter wins over session cookie" />
     <MESSAGE value="- no container" />
@@ -1157,7 +1151,8 @@
     <MESSAGE value="- added ustat" />
     <MESSAGE value="fixed get_Value() function, now faster in next rule&#10;but does not continue after next rule" />
     <MESSAGE value="fixed start bugs" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed start bugs" />
+    <MESSAGE value="selects new rule and set it as current" />
+    <option name="LAST_COMMIT_MESSAGE" value="selects new rule and set it as current" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
