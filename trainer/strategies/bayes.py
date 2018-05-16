@@ -15,26 +15,38 @@ class DynamicNet(models.Model):
         self.Net = list()
         self.current = None
 
-        for i in UserRule.objects.filter(user=self.user, dynamicnet_active=True):
-            try:
-                node = DynamicNode(self.strategy, user, i.rule.code)
-                if i.dynamicnet_current:
-                     self.current = node
-            except KeyError:
-                pass
-            self.Net.append(node)
+        self.updateNet()
         #keys = BayesStrategy.start_values.keys()
         #for i in keys:
         #     self.Net.append(DynamicNode(strategy=BayesStrategy,user=self.user,ruleCode=i))
          #for i in activatedByTest:
          #   i.activateNode()
 
+    def updateNet(self):
+        for i in UserRule.objects.filter(user=self.user, dynamicnet_active=True):
+            try:
+                node = DynamicNode(self.strategy, self.user, i.rule.code)
+                if i.dynamicnet_current:
+                    self.current = node
+            except KeyError:
+                pass
+            self.Net.append(node)
 
     def setCurrent(self,rule):
+        self.updateNet()
+        self.current.ur.dynamicnet_current = False
+        self.current.ur.save()
+        print(rule.code)
         for node in self.Net:
             if node.ruleCode == rule.code:
+                print("find new current")
                 self.current = node
+                self.current.ur.dynamicnet_current = True
+                print(self.current.ur)
+                self.current.ur.save()
                 break
+        else:
+            print("not found")
 
     def count_known(self):
         "Count known Rules"
@@ -322,10 +334,10 @@ class BayesStrategy:
         # if it is known, find a new rule
         if currentRule.known():
             newRule,forgotten = self.selectNewRule
-            self.dynamicNet.current = self.dynamicNet.setCurrent(newRule)
             nextur = UserRule.objects.get(user=self.user, rule=newRule)
-            nextur.dynamicnet_active = true
+            nextur.dynamicnet_active = True
             nextur.save()
+            self.dynamicNet.setCurrent(newRule)
             #set rule active
             #nodeToActive = self.getNodefromNet(newRule)
             #nodeToActive.activateNode()
@@ -379,9 +391,10 @@ class BayesStrategy:
                 # TODO: treat error rules like normal rules
                 pool.extend(r.code)
                 pool.extend(r.code)
-
+        print(pool)
         random.shuffle(pool)  # shuffle the elements in the list
         index = random.randint(0, len(pool) - 1)  # pick a random number
+        print("index",index)
         rule_obj = Rule.objects.filter(code=pool[index])  # and select a random rule code
 
         possible_sentences = list() #contains SentenceRuleObjects
