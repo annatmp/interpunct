@@ -14,20 +14,20 @@ class DynamicNet(models.Model):
         self.user = user
         self.Net = list()
         self.current = None
-        #
-        # for i in UserRule.objects.filter(user=self.user, dynamicnet_active=True):
-        #     try:
-        #         node = DynamicNode(self.strategy, user, i.rule.code)
-        #         if i.dynamicnet_current:
-        #             self.current = node
-        #     except KeyError:
-        #         pass
-        #     self.Net.append(node)
-        keys = BayesStrategy.start_values.keys()
-        for i in keys:
-            self.Net.append(DynamicNode(strategy=BayesStrategy,user=self.user,ruleCode=i))
-        #for i in activatedByTest:
-        #   i.activateNode()
+
+        for i in UserRule.objects.filter(user=self.user, dynamicnet_active=True):
+            try:
+                node = DynamicNode(self.strategy, user, i.rule.code)
+                if i.dynamicnet_current:
+                     self.current = node
+            except KeyError:
+                pass
+            self.Net.append(node)
+        #keys = BayesStrategy.start_values.keys()
+        #for i in keys:
+        #     self.Net.append(DynamicNode(strategy=BayesStrategy,user=self.user,ruleCode=i))
+         #for i in activatedByTest:
+         #   i.activateNode()
 
 
     def setCurrent(self,rule):
@@ -323,8 +323,12 @@ class BayesStrategy:
         if currentRule.known():
             newRule,forgotten = self.selectNewRule
             self.dynamicNet.current = self.dynamicNet.setCurrent(newRule)
-            nodeToActive = self.getNodefromNet(newRule)
-            nodeToActive.activateNode()
+            nextur = UserRule.objects.get(user=self.user, rule=newRule)
+            nextur.dynamicnet_active = true
+            nextur.save()
+            #set rule active
+            #nodeToActive = self.getNodefromNet(newRule)
+            #nodeToActive.activateNode()
             print("new rule passed")
             return newRule, False, forgotten
         # otherwise return false
