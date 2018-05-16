@@ -113,6 +113,7 @@ class DynamicNode:
             sum1 = bin(self.ur.dynamicnet_history1 % 2 ** (max )).count('1')
             sum2 = bin(self.ur.dynamicnet_history2 % 2 ** (max )).count('1')
             sum3 = bin(self.ur.dynamicnet_history3 % 2 ** (max )).count('1')
+            #todo rule count as an array so it is possible to divide by specific task count
             value = (sum1 + sum2 + sum3)/max
         return value
 
@@ -376,26 +377,28 @@ class BayesStrategy:
                 pool.extend(repeat(node.ruleCode, 8))
                 weakRules.append(node.ruleCode)
             elif node.value < 0.85:
-                pool.extend(repeat(node.ruleCode, 6))
+                pool.append(repeat(node.ruleCode, 6))
             elif node.value < 0.9:
-                pool.extend(repeat(node.ruleCode, 4))
+                pool.append(repeat(node.ruleCode, 4))
             elif node.value < 0.95:
-                pool.extend(repeat(node.ruleCode, 2))
+                pool.append(repeat(node.ruleCode, 2))
             elif node.value <= 1:
-                pool.extend(repeat(node.ruleCode, 1))
+                pool.append(repeat(node.ruleCode, 1))
 
         # add error rules if more than 4 rules
         if len(RuleNodes) >= 4:
-            for r in Rule.objects.filter(code__startswith='E').all():
-                # all error rules are treated like box 3
-                # TODO: treat error rules like normal rules
-                pool.extend(r.code)
-                pool.extend(r.code)
-        print(pool)
-        random.shuffle(pool)  # shuffle the elements in the list
-        index = random.randint(0, len(pool) - 1)  # pick a random number
-        print("index",index)
-        rule_obj = Rule.objects.filter(code=pool[index])  # and select a random rule code
+            pool.append("E1")
+            pool.append("E2")
+            # for r in Rule.objects.filter(code__startswith='E').all():
+            #     # all error rules are treated like box 3
+            #     # TODO: treat error rules like normal rules
+            #     pool.extend(r.code)
+            #     pool.extend(r.code)
+
+        print("pool is",pool)
+        random.shuffle(pool) # shuffle the elements in the list
+        codeOfnewRule = pool[0] #select the first element from the shuffled list
+        rule_obj = Rule.objects.filter(code=codeOfnewRule)  # and access the rule object
 
         possible_sentences = list() #contains SentenceRuleObjects
         contains = False
@@ -404,7 +407,7 @@ class BayesStrategy:
         for node in self.dynamicNet.Net:
             activeRules.append(node.ur.rule.code)
 
-        # check all active sentences taht include a position for the selected rule
+        # check all active sentences that include a position for the selected rule
         for sr in SentenceRule.objects.filter(rule=rule_obj[0], sentence__active=True).all():
             contains = True
             contained_rules = list()
