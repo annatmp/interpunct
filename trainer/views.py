@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
 from django.db.models import Count, Sum
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from .models import Sentence, Solution, Rule, SolutionRule, SentenceRule, User, UserSentence, UserRule
 import re  # regex support
 import os
@@ -108,7 +108,7 @@ def logged_in_or_basicauth(realm=""):
     def view_decorator(func):
         def wrapper(request, *args, **kwargs):
             return view_or_basicauth(func, request,
-                                     lambda u: u.is_authenticated(),
+                                     lambda u: u.is_authenticated,
                                      realm, *args, **kwargs)
 
         return wrapper
@@ -308,7 +308,6 @@ def submit_task_set_commas(request):
     """
     Receives an AJAX GET request containing a solution bitfield for a 'set' task.
     Saves solution and user_id to database.
-
     :param request: Django request
     :return: nothing
     """
@@ -344,6 +343,7 @@ def submit_task_set_commas(request):
         UserSentence(user=user, sentence=sentence, count=1).save()
 
     return JsonResponse({'submit': 'ok', 'response': response}, safe=False)
+
 
 
 @logged_in_or_basicauth("Bitte einloggen")
@@ -388,6 +388,7 @@ def submit_task_correct_commas(request):
         UserSentence(user=user, sentence=sentence, count=1).save()
 
     return JsonResponse({'submit': 'ok', 'response':response}, safe=False)
+
 
 
 @logged_in_or_basicauth("Bitte einloggen")

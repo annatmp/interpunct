@@ -25,3 +25,7 @@ Structure of test
     - for this update static model based on the introduction test and classify him according to his overall performance
     - maybe display "strength and weakness"
 4. Start the "real" learning program
+
+all rule codes of the correct answered questions are stored in a list and should be activated (in the net) before start
+of program -> but none of them should be set as current
+- should happen in the init process of the dynamic net (list needs to be passed to constructor)
