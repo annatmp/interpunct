@@ -256,17 +256,18 @@ class BayesStrategy:
         # before choosing new rule from static net, check whether a rule was forgotten
         possibleRules = list()
         nextRule = None
+        
         #look for all forgotten rules
         #todo forgetting
-        # for i in self.dynamicNet.Net:
-        #     if i.ur.dynamicNet_active = True & (not i.known()):
-        #             possibleRules.append(i)
-        # if possibleRules: # if there are forgotten rules
-        #     nextRule = possibleRules[0]
-        #     assert isinstance(nextRule,DynamicNode)
-        #     for i in possibleRules:
-        #         if i.value < nextRule.value:
-        #             nextRule = i # and  choose the one with the worst performance
+        for i in self.dynamicNet.Net:
+            if i.ur.dynamicNet_active & (not i.known()):
+                    possibleRules.append(i)
+        if possibleRules: # if there are forgotten rules
+            nextRule = possibleRules[0]
+            assert isinstance(nextRule,DynamicNode)
+            for i in possibleRules:
+                if i.value < nextRule.value:
+                    nextRule = i # and  choose the one with the worst performance
 
             # if nextRule.ur.dynamicnet_count < self.necReps:  # if the rule was already in the iniial dynamic net, jus show the rule
             #     # introduce the rule
@@ -377,13 +378,13 @@ class BayesStrategy:
                 pool.extend(repeat(node.ruleCode, 8))
                 weakRules.append(node.ruleCode)
             elif node.value < 0.85:
-                pool.append(repeat(node.ruleCode, 6))
+                pool.extend(repeat(node.ruleCode, 6))
             elif node.value < 0.9:
-                pool.append(repeat(node.ruleCode, 4))
+                pool.extend(repeat(node.ruleCode, 4))
             elif node.value < 0.95:
-                pool.append(repeat(node.ruleCode, 2))
+                pool.extend(repeat(node.ruleCode, 2))
             elif node.value <= 1:
-                pool.append(repeat(node.ruleCode, 1))
+                pool.extend(repeat(node.ruleCode, 1))
 
         # add error rules if more than 4 rules
         if len(RuleNodes) >= 4:
@@ -441,14 +442,14 @@ class BayesStrategy:
             if len(rulesOfSentence) > 2:  # if sentence contains more than two rules
                 union = list(set().union(rulesOfSentence, weakRules))
                 if len(union) > 1:  # if there is a greater union than 1, copy directly
-                    priorSentence.append(node)
+                    priorSentence.append(i)
                 else:
                     assert isinstance(union[0], Rule)  # otherwise check that the union is not the selected rule
                     # (union[0].code == rule_obj would happen, if the current selected rule is a weak one
                     if union[
                         0].code != rule_obj:  # in this case we rule_obj is not a weak one and we have only one match
                         # with a weak rule
-                        priorSentence.append(node)
+                        priorSentence.append(i)
 
         sentence = None
         if possible_sentences[0][1] == 0:  # first use all sentences at least once

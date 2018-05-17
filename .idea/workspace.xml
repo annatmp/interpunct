@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c27e21c9-abfd-4383-9be3-1ce7a89018f8" name="Default" comment="selects new rule and set it as current">
+    <list default="true" id="c27e21c9-abfd-4383-9be3-1ce7a89018f8" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
       <change beforePath="$PROJECT_DIR$/trainer/strategies/bayes.py" afterPath="$PROJECT_DIR$/trainer/strategies/bayes.py" />
@@ -96,8 +96,8 @@
       <file leaf-file-name="bayes.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/trainer/strategies/bayes.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="233">
-              <caret line="388" column="31" lean-forward="true" selection-start-line="388" selection-start-column="31" selection-end-line="388" selection-end-column="31" />
+            <state relative-caret-position="174">
+              <caret line="258" column="8" lean-forward="false" selection-start-line="258" selection-start-column="8" selection-end-line="258" selection-end-column="8" />
               <folding>
                 <element signature="e#0#83#0" expanded="true" />
               </folding>
@@ -130,7 +130,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>.json</find>
       <find>ur.dynamicnet</find>
       <find>ur.dynamicnet_count</find>
       <find>progr</find>
@@ -160,12 +159,14 @@
       <find>&quot;A</find>
       <find>r.mode</find>
       <find>r.code</find>
+      <find>thresh</find>
     </findStrings>
     <replaceStrings>
       <replace>col-sm-</replace>
       <replace>col-xs-</replace>
       <replace>,</replace>
       <replace>u</replace>
+      <replace>extend</replace>
     </replaceStrings>
     <dirStrings>
       <dir>C:\Users\Tobias\PycharmProjects\interpunct\trainer\templates\trainer</dir>
@@ -245,10 +246,10 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-11" />
-    <option name="y" value="-11" />
-    <option name="width" value="1942" />
-    <option name="height" value="1042" />
+    <option name="x" value="-2862" />
+    <option name="y" value="95" />
+    <option name="width" value="1943" />
+    <option name="height" value="1043" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -692,13 +693,6 @@
       <option name="presentableId" value="Default" />
       <updated>1479331318085</updated>
     </task>
-    <task id="LOCAL-00026" summary="- display correct sentence with rule hints after task submission">
-      <created>1495663008126</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1495663008126</updated>
-    </task>
     <task id="LOCAL-00027" summary="- use static tags in templates">
       <created>1495786194464</created>
       <option name="number" value="00027" />
@@ -1035,7 +1029,14 @@
       <option name="project" value="LOCAL" />
       <updated>1526473584391</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="includes now error rules correctly">
+      <created>1526476106840</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1526476106841</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1048,21 +1049,21 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-11" y="-11" width="1942" height="1042" extended-state="6" />
+    <frame x="-2891" y="-11" width="1942" height="1042" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3021327" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3021327" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39653304" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.34360188" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22274882" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12324324" sideWeight="0.46010187" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12324324" sideWeight="0.4620853" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15243243" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="manage.py@interpunct2" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="WINDOWED" visible="false" show_stripe_button="true" weight="0.0" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" x="0" y="34" width="1920" height="986" />
       <window_info id="SciView" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12324324" sideWeight="0.53989816" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12324324" sideWeight="0.5379147" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1107,8 +1108,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="- fixed bug in rule file formatting" />
-    <MESSAGE value="- bootstrap grid changed to col-xs-&#10;- uname parameter wins over session cookie" />
     <MESSAGE value="- no container" />
     <MESSAGE value="- introduce active and inactive sentences&#10;- sentence import script handles multiple files and can deactivate all old sentences&#10;- introduce comma pairs&#10;- make boostrap container depend on iframe embedding" />
     <MESSAGE value="- SolutionRules introduced&#10;- Fixed minor bugs in rule list&#10;- Handling of unbalanced optional commas for 'set comma' task&#10;- Reworked client evaluation code for 'set comma' task" />
@@ -1132,7 +1131,9 @@
     <MESSAGE value="fixed get_Value() function, now faster in next rule&#10;but does not continue after next rule" />
     <MESSAGE value="fixed start bugs" />
     <MESSAGE value="selects new rule and set it as current" />
-    <option name="LAST_COMMIT_MESSAGE" value="selects new rule and set it as current" />
+    <MESSAGE value="includes now error rules correctly" />
+    <MESSAGE value="commit before merging with original repo again" />
+    <option name="LAST_COMMIT_MESSAGE" value="commit before merging with original repo again" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1327,7 +1328,7 @@
         <state relative-caret-position="-727">
           <caret line="13" column="0" lean-forward="true" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
           <folding>
-            <element signature="e#0#64#0" expanded="true" />
+            <element signature="e#0#64#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -1393,8 +1394,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/trainer/strategies/bayes.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="233">
-          <caret line="388" column="31" lean-forward="true" selection-start-line="388" selection-start-column="31" selection-end-line="388" selection-end-column="31" />
+        <state relative-caret-position="174">
+          <caret line="258" column="8" lean-forward="false" selection-start-line="258" selection-start-column="8" selection-end-line="258" selection-end-column="8" />
           <folding>
             <element signature="e#0#83#0" expanded="true" />
           </folding>
