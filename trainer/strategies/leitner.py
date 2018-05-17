@@ -174,9 +174,12 @@ class LeitnerStrategy:
 
         return random.choice(possible_sentences[:num])[0]  # randomly choose and return SentenceRule object
 
-    def update(self):
+    def update(self, rule, mode, correctness):
         """Updates internal state of strategy."""
         pass
+
+    def get_active_rules(self):
+        return UserRule.objects.filter(user=self.user, active=1)[:5]
 
     def debug_output(self):
         return "<p>Strategy: Leitner, no debug info</p>"

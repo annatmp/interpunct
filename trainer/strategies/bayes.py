@@ -25,7 +25,7 @@ class DynamicNet(models.Model):
     def updateNet(self):
         for i in UserRule.objects.filter(user=self.user, dynamicnet_active=True):
             try:
-                node = DynamicNode(self.strategy, self.user, i.rule.code)
+                node = DynamicNode(self.strategy, self.user, i.rule.code, self)
                 if i.dynamicnet_current:
                     self.current = node
             except KeyError:
@@ -68,11 +68,12 @@ class DynamicNode:
         and the rule code
     """
 
-    def __init__(self, strategy, user, ruleCode):
+    def __init__(self, strategy, user, ruleCode, dynamicNet):
         """Initialize a dynamic node.
         :param strategy BayesianStrategy object for parameter access
         :param user User object
         :param ruleCode rule.code for the rule represented by this node
+        :param dynamicNet the DynamicNet object to which the node belongs
         """
 
         # data model:
@@ -90,6 +91,7 @@ class DynamicNode:
         self.ur = UserRule.objects.get(user=user, rule__code=ruleCode)
         self.ruleCode = ruleCode
         self.value = BayesStrategy.start_values[self.ruleCode]
+        self.dynamicNet = dynamicNet
         if self.ur.dynamicnet_active:
             # calculate value
             self.value = self.get_value()
@@ -110,11 +112,15 @@ class DynamicNode:
             return BayesStrategy.start_values[self.ruleCode]
         # true python magic: count bits
         else:
-            sum1 = bin(self.ur.dynamicnet_history1 % 2 ** (max )).count('1')
-            sum2 = bin(self.ur.dynamicnet_history2 % 2 ** (max )).count('1')
-            sum3 = bin(self.ur.dynamicnet_history3 % 2 ** (max )).count('1')
-            #todo rule count as an array so it is possible to divide by specific task count
-            value = (sum1 + sum2 + sum3)/max
+            sum1 = bin(self.ur.dynamicnet_history1 % 2 ** (max)).count('1')/self.ur.dynamicnet_count1 if self.ur.dynamicnet_count1 else BayesStrategy.start_values[self.ruleCode]
+            sum2 = bin(self.ur.dynamicnet_history2 % 2 ** (max)).count('1')/self.ur.dynamicnet_count2 if self.ur.dynamicnet_count2 else BayesStrategy.start_values[self.ruleCode]
+            sum3 = bin(self.ur.dynamicnet_history3 % 2 ** (max)).count('1')/self.ur.dynamicnet_count3 if self.ur.dynamicnet_count3 else BayesStrategy.start_values[self.ruleCode]
+            if len(self.dynamicNet.Net)<3:
+                value = sum1 * 0.4 + sum2 * 0.6
+                print("value = {} * 0.4 + {} * 0.6 = {}".format(sum1, sum2, value))
+            else:
+                value = sum1 * 0.25 + sum2 * 0.45 + sum3 * 0.3
+                print("value = {} * 0.25 + {} * 0.45 + {} * 0.3 = {}".format(sum1, sum2, sum3, value))
         return value
 
     def known(self):
@@ -128,14 +134,17 @@ class DynamicNode:
         if taskNumber == 1:
         # move bits in integer to left and fill new position with 0 (default) or 1 (if correct)
             self.ur.dynamicnet_history1 = self.ur.dynamicnet_history1 << 1
+            self.ur.dynamicnet_count1 += 1
             if correct:
                 self.ur.dynamicnet_history1 |= 1
         if taskNumber == 2:
             self.ur.dynamicnet_history2 = self.ur.dynamicnet_history2 << 1
+            self.ur.dynamicnet_count2 += 1
             if correct:
                 self.ur.dynamicnet_history2 |= 1
         if taskNumber == 3:
             self.ur.dynamicnet_history3 = self.ur.dynamicnet_history3 << 1
+            self.ur.dynamicnet_count3 += 1
             if correct:
                 self.ur.dynamicnet_history3 |= 1
 
@@ -217,6 +226,7 @@ class BayesStrategy:
 
         self.user.rules_activated_count = 1  # activate first rule for next request
         self.user.save()
+        return new_rule
 
     def update(self, rule, taskNumber, correct):
         """
@@ -269,6 +279,7 @@ class BayesStrategy:
                 if i.value < nextRule.value:
                     nextRule = i # and  choose the one with the worst performance
 
+
             # if nextRule.ur.dynamicnet_count < self.necReps:  # if the rule was already in the iniial dynamic net, jus show the rule
             #     # introduce the rule
             #     reminder = False
@@ -282,7 +293,7 @@ class BayesStrategy:
         min = 1
         min_node = None
         for i in UserRule.objects.filter(dynamicnet_active=False):
-            node = DynamicNode(BayesStrategy,self.user, i.rule.code)
+            node = DynamicNode(BayesStrategy,self.user, i.rule.code, self.dynamicNet)
             if node.value < min:
                 min = node.value
                 if node.ruleCode.startswith("E"):
@@ -442,14 +453,15 @@ class BayesStrategy:
             if len(rulesOfSentence) > 2:  # if sentence contains more than two rules
                 union = list(set().union(rulesOfSentence, weakRules))
                 if len(union) > 1:  # if there is a greater union than 1, copy directly
-                    priorSentence.append(i)
+                    priorSentence.append(i[0])
+
                 else:
                     assert isinstance(union[0], Rule)  # otherwise check that the union is not the selected rule
                     # (union[0].code == rule_obj would happen, if the current selected rule is a weak one
                     if union[
                         0].code != rule_obj:  # in this case we rule_obj is not a weak one and we have only one match
                         # with a weak rule
-                        priorSentence.append(i)
+                        priorSentence.append(i[0])
 
         sentence = None
         if possible_sentences[0][1] == 0:  # first use all sentences at least once
