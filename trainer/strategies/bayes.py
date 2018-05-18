@@ -23,7 +23,7 @@ class DynamicNet(models.Model):
          #   i.activateNode()
 
     def updateNet(self):
-        for i in UserRule.objects.filter(user=self.user, dynamicnet_active=True):
+        for i in UserRule.objects.filter(user=self.user,dynamicnet_active= True): # i is an user rule object
             try:
                 node = DynamicNode(self.strategy, self.user, i.rule.code, self)
                 if i.dynamicnet_current:
@@ -106,26 +106,51 @@ class DynamicNode:
         self.ur.save()
 
     def get_value(self):
-        """Calculate value from history"""
-        max = 8# arraysize
-        if self.ur.dynamicnet_count < max:
-            return BayesStrategy.start_values[self.ruleCode]
-        # true python magic: count bits
-        else:
-            sum1 = bin(self.ur.dynamicnet_history1 % 2 ** (max)).count('1')/self.ur.dynamicnet_count1 if self.ur.dynamicnet_count1 else BayesStrategy.start_values[self.ruleCode]
-            sum2 = bin(self.ur.dynamicnet_history2 % 2 ** (max)).count('1')/self.ur.dynamicnet_count2 if self.ur.dynamicnet_count2 else BayesStrategy.start_values[self.ruleCode]
-            sum3 = bin(self.ur.dynamicnet_history3 % 2 ** (max)).count('1')/self.ur.dynamicnet_count3 if self.ur.dynamicnet_count3 else BayesStrategy.start_values[self.ruleCode]
-            if len(self.dynamicNet.Net)<3:
-                value = sum1 * 0.4 + sum2 * 0.6
-                print("value = {} * 0.4 + {} * 0.6 = {}".format(sum1, sum2, value))
+        max = 4 #maximum amount of repititions a rule needs
+        toconsider = 6 #only the last 6 answers are going to be considered
+        sum1 = 0
+        sum2 = 0
+        sum3 = 0
+        total_count = self.ur.total
+        
+        # calculating value for node "task 1"
+        if self.ur.dynamicnet_count1 < 6:
+            if self.ur.dynamicnet_count1 == 0:
+                sum1=BayesStrategy.start_values[self.ruleCode]
             else:
-                value = sum1 * 0.25 + sum2 * 0.45 + sum3 * 0.3
-                print("value = {} * 0.25 + {} * 0.45 + {} * 0.3 = {}".format(sum1, sum2, sum3, value))
+                sum1 = bin(self.ur.dynamicnet_history1 % 2 ** (self.ur.dynamicnet_count1)).count('1')/self.ur.dynamicnet_count1 if self.ur.dynamicnet_count1 else BayesStrategy.start_values[self.ruleCode]
+        else:
+            sum1 = bin(self.ur.dynamicnet_history1 % 2 ** (toconsider)).count('1')/toconsider
+
+        #calculating value for node "task2"
+        if self.ur.dynamicnet_count2 < 6:
+            if self.ur.dynamicnet_count2 == 0:
+                sum2 = BayesStrategy.start_values[self.ruleCode]
+            else:
+                sum2 = bin(self.ur.dynamicnet_history2 % 2 ** (self.ur.dynamicnet_count2)).count('1')/self.ur.dynamicnet_count2 if self.ur.dynamicnet_count1 else BayesStrategy.start_values[self.ruleCode]
+        else:
+            sum1 = bin(self.ur.dynamicnet_history2 % 2 ** (toconsider)).count('1')/toconsider
+
+        #if task3 was not shown yet calculate value only by sum1 and sum2
+        if self.ur.dynamicnet_count3 == 0:
+            value = sum1 * 0.4 + sum2 * 0.6
+            print(self.ur.rule.code, "value = {} * 0.4 + {} * 0.6 = {}".format(sum1, sum2, value))
+            return value
+
+        #calculating value for node "task3"
+        if self.ur.dynamicnet_count3 < 6:
+            assert(self.ur.dynamicnet_count3 != 0), "This value should not be 0"
+            sum3 = bin(self.ur.dynamicnet_history3 % 2 ** (self.ur.dynamicnet_count3)).count('1')/self.ur.dynamicnet_count3 if self.ur.dynamicnet_count1 else BayesStrategy.start_values[self.ruleCode]
+        else:
+            sum3 = bin(self.ur.dynamicnet_history3 % 2 ** (toconsider)).count('1')/toconsider
+        value = sum1 * 0.25 + sum2 * 0.4 + sum3 * 0.35
+        print(self.ur.rule.code , "value = {} * 0.25 + {} * 0.45 + {} * 0.3 = {}".format(sum1, sum2, sum3, value))
         return value
+
 
     def known(self):
         """Is the rule known (true) or forgotten (false)"""
-        known = (self.ur.dynamicnet_count > 8) and (self.get_value() >= 0.75)
+        known = (self.ur.dynamicnet_count > 4) and (self.get_value() >= 0.75)
         return known
 
     def storeAnswer(self, taskNumber, correct):
@@ -191,7 +216,7 @@ class BayesStrategy:
         "E2": 0.0,
     }
 
-    def __init__(self, user, threshold=0.75, necReps=8):
+    def __init__(self, user, threshold=0.75, necReps=4):
         """
         works as konstruktor, at initializing two models are created.
         model 1 contains all rules (static model)
@@ -266,11 +291,11 @@ class BayesStrategy:
         # before choosing new rule from static net, check whether a rule was forgotten
         possibleRules = list()
         nextRule = None
-        
+
         #look for all forgotten rules
         #todo forgetting
         for i in self.dynamicNet.Net:
-            if i.ur.dynamicNet_active & (not i.known()):
+            if i.ur.dynamicnet_active & (not i.known()):
                     possibleRules.append(i)
         if possibleRules: # if there are forgotten rules
             nextRule = possibleRules[0]
@@ -386,12 +411,12 @@ class BayesStrategy:
                 pool.extend(repeat(node.ruleCode, 10))
                 weakRules.append(node.ruleCode)
             elif node.value < 0.8:
-                pool.extend(repeat(node.ruleCode, 8))
+                pool.extend(repeat(node.ruleCode, 6))
                 weakRules.append(node.ruleCode)
             elif node.value < 0.85:
-                pool.extend(repeat(node.ruleCode, 6))
-            elif node.value < 0.9:
                 pool.extend(repeat(node.ruleCode, 4))
+            elif node.value < 0.9:
+                pool.extend(repeat(node.ruleCode, 3))
             elif node.value < 0.95:
                 pool.extend(repeat(node.ruleCode, 2))
             elif node.value <= 1:
@@ -401,14 +426,10 @@ class BayesStrategy:
         if len(RuleNodes) >= 4:
             pool.append("E1")
             pool.append("E2")
-            # for r in Rule.objects.filter(code__startswith='E').all():
-            #     # all error rules are treated like box 3
-            #     # TODO: treat error rules like normal rules
-            #     pool.extend(r.code)
-            #     pool.extend(r.code)
 
-        print("pool is",pool)
+
         random.shuffle(pool) # shuffle the elements in the list
+        print("pool is",pool)
         codeOfnewRule = pool[0] #select the first element from the shuffled list
         rule_obj = Rule.objects.filter(code=codeOfnewRule)  # and access the rule object
 

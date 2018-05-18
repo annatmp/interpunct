@@ -5,8 +5,11 @@
       <change beforePath="" afterPath="$PROJECT_DIR$/trainer/migrations/0021_auto_20180516_1540.py" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources/948627af-16bd-4562-8b76-47857f843b8b.xml" afterPath="" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+<<<<<<< Updated upstream
       <change beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
       <change beforePath="$PROJECT_DIR$/trainer/models.py" afterPath="$PROJECT_DIR$/trainer/models.py" />
+=======
+>>>>>>> Stashed changes
       <change beforePath="$PROJECT_DIR$/trainer/strategies/bayes.py" afterPath="$PROJECT_DIR$/trainer/strategies/bayes.py" />
       <change beforePath="$PROJECT_DIR$/trainer/strategies/leitner.py" afterPath="$PROJECT_DIR$/trainer/strategies/leitner.py" />
       <change beforePath="$PROJECT_DIR$/trainer/views.py" afterPath="$PROJECT_DIR$/trainer/views.py" />
@@ -101,8 +104,13 @@
       <file leaf-file-name="bayes.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/trainer/strategies/bayes.py">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
             <state relative-caret-position="-971">
               <caret line="463" column="50" lean-forward="true" selection-start-line="463" selection-start-column="50" selection-end-line="463" selection-end-column="50" />
+=======
+            <state relative-caret-position="174">
+              <caret line="258" column="0" lean-forward="false" selection-start-line="258" selection-start-column="0" selection-end-line="258" selection-end-column="0" />
+>>>>>>> Stashed changes
               <folding>
                 <element signature="e#0#83#0" expanded="true" />
               </folding>
@@ -250,7 +258,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-2862" />
     <option name="y" value="95" />
     <option name="width" value="1943" />
@@ -698,13 +706,6 @@
       <option name="presentableId" value="Default" />
       <updated>1479331318085</updated>
     </task>
-    <task id="LOCAL-00027" summary="- use static tags in templates">
-      <created>1495786194464</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1495786194464</updated>
-    </task>
     <task id="LOCAL-00028" summary="- rule and sentence corrections&#10;- questionnaire corrections">
       <created>1496326985048</created>
       <option name="number" value="00028" />
@@ -1041,7 +1042,14 @@
       <option name="project" value="LOCAL" />
       <updated>1526476106841</updated>
     </task>
-    <option name="localTasksCounter" value="76" />
+    <task id="LOCAL-00076" summary="commit before merging with original repo again">
+      <created>1526566877501</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1526566877502</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="TodoView">
@@ -1054,7 +1062,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-2891" y="-11" width="1942" height="1042" extended-state="6" />
+    <frame x="-2891" y="-11" width="1942" height="1042" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32936078" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1394,8 +1402,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/trainer/strategies/bayes.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
         <state relative-caret-position="-971">
           <caret line="463" column="50" lean-forward="true" selection-start-line="463" selection-start-column="50" selection-end-line="463" selection-end-column="50" />
+=======
+        <state relative-caret-position="174">
+          <caret line="258" column="0" lean-forward="false" selection-start-line="258" selection-start-column="0" selection-end-line="258" selection-end-column="0" />
+>>>>>>> Stashed changes
           <folding>
             <element signature="e#0#83#0" expanded="true" />
           </folding>
