@@ -399,7 +399,20 @@ class BayesStrategy:
         # res = UserRule.objects.filter(user=self.user, active=1).order_by('box')[:limit]
         # return res
         # returns UserRuleObjects
-        return UserRule.objects.filter(user=self.user, dynamicnet_active=True)[:5]
+        # choose thoose under 85% performance, if more sort them
+        weak = list()
+        Net = self.dynamicNet.Net
+        for i in Net: #append all rules the user does not know yet
+            if not i.known():
+                weak.append(i.ur)
+        if len(weak) < 5: #if there are less than 5 rules, look for rules with a performance lower than 85%
+            weaker = list()
+            for rule in Net:
+                if rule.get_value() < .85 & i.get_value > 0.75 : #make sure it is not in list yet
+                    weaker.append(rule.ur)
+        #if there are still less than 5 rules just return as it is
+        return weak
+
 
     def findNextRule(self):
         possibleRules = list()
@@ -418,7 +431,7 @@ class BayesStrategy:
                     nextRule = i # and  choose the one with the worst performance
 
             #todo compare node with list from intro test
-            if nextRule.ur.dynamicnet_count < self.necReps:  # if the rule was already in the iniial dynamic net, jus show the rule
+            if nextRule.ur.dynamicnet_count < self.necReps:  # if the rule was already in the initial dynamic net, jus show the rule
                 # introduce the rule
                 reminder = False
                 return nextRule.ur.rule, reminder
