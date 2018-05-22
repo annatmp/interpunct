@@ -1,4 +1,5 @@
 Rules that should be covered by the introduction test
+
 "A3":	97.592,
 "A4":	76.809,
 "B1.2":	95.471,

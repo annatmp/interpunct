@@ -13,9 +13,9 @@ class StaticNet:
         self.auf = ["A1","A2","A4","A3"]
         self.teil = ["B1.1","B1.2","B1.3","B1.4.1","B1.4.2","B2.1","B2.2","B2.3","B2.4.1","B.2.4.2","B2.5","B1.5"]
         self.zus = ["C1","C2","C3.1","C3.2","C4.1","C5","C6.1","C6.3.1","C7","C8","C6.2","C6.4","C6.3.1","D1","D3"]
-        self.aufValue = None
-        self.teilValue = None
-        self.zusValue = None
+        self.aufValue = 1
+        self.teilValue = 1
+        self.zusValue = 1
 
         self.updateStatic(dynamicNet)
 
@@ -24,7 +24,7 @@ class StaticNet:
         countauf = 0
         countteil = 0
         countzus = 0
-        for i in dynamicNet.Net:
+        for i in self.dynamicNet.Net:
             assert (isinstance(i, DynamicNode))
             # multiply node values according to their parent node
             if i.ruleCode in self.auf:
@@ -52,7 +52,7 @@ class StaticNet:
         else:
             self.zusValue = 0
         # get the overall value
-        self.overall = self.aufValue * self.teilValue * self.zusValue / 3
+        self.overall = (self.aufValue * self.teilValue * self.zusValue)/3
 
 
 class DynamicNet(models.Model):
@@ -278,7 +278,7 @@ class BayesStrategy:
                      ("A4", "A3", "A2"),
                      ("B1.2", "B1.1", "B1.3"),
                      ("B1.3", "B1.1", "B1.2"),
-                     ("B1.5", "B1.4", "B1.3"),
+                     ("B1.5", "C1", "B1.3"),
                      ("B2.4.1", "B2.4.2", "B2.3"),
                      ("B2.4.2", "B2.4.1", "B2.3"),
                      ("B2.5", "B2.1", "B2.3"),
@@ -570,18 +570,21 @@ class BayesStrategy:
 
         RuleNodes = self.dynamicNet.Net # contains a list of all rule nodes
         assert isinstance(self.dynamicNet, DynamicNet)
+        currentRule = self.dynamicNet.current.ruleCode
+
 
         pool = list()
+        pool.extend(repeat(currentRule,30))
         weakRules = list() #contains all rules under 80%
         #create a pool of rules with different weights, makes it more likely to select weak rules
         for node in RuleNodes:
             assert isinstance(node, DynamicNode)
             assert isinstance(node.value, float)
             if node.value < 0.75:
-                pool.extend(repeat(node.ruleCode, 10))
+                pool.extend(repeat(node.ruleCode, 15))
                 weakRules.append(node.ruleCode)
             elif node.value < 0.8:
-                pool.extend(repeat(node.ruleCode, 6))
+                pool.extend(repeat(node.ruleCode, 8))
                 weakRules.append(node.ruleCode)
             elif node.value < 0.85:
                 pool.extend(repeat(node.ruleCode, 4))
@@ -639,7 +642,7 @@ class BayesStrategy:
         possible_sentences.sort(key=lambda sentence: sentence[1])  # sort ascending by counts
 
         #todo does this really work? Never reached so far!
-        
+
         # are there possible sentences containing a weak rule?
         priorSentence = list()
         for i in possible_sentences:
