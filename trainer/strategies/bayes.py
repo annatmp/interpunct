@@ -184,9 +184,9 @@ class DynamicNode:
             if self.ur.dynamicnet_count2 == 0:
                 sum2 = BayesStrategy.start_values[self.ruleCode]
             else:
-                sum2 = bin(self.ur.dynamicnet_history2 % 2 ** (self.ur.dynamicnet_count2)).count('1')/self.ur.dynamicnet_count2 if self.ur.dynamicnet_count1 else BayesStrategy.start_values[self.ruleCode]
+                sum2 = bin(self.ur.dynamicnet_history2 % 2 ** (self.ur.dynamicnet_count2)).count('1')/self.ur.dynamicnet_count2 if self.ur.dynamicnet_count2 else BayesStrategy.start_values[self.ruleCode]
         else:
-            sum1 = bin(self.ur.dynamicnet_history2 % 2 ** (toconsider)).count('1')/toconsider
+            sum2 = bin(self.ur.dynamicnet_history2 % 2 ** (toconsider)).count('1')/toconsider
 
         #if task3 was not shown yet calculate value only by sum1 and sum2
         print (self.ur.dynamicnet_count3, self.ur.rule.code)
@@ -198,7 +198,7 @@ class DynamicNode:
         #calculating value for node "task3"
         if self.ur.dynamicnet_count3 < 6:
             assert(self.ur.dynamicnet_count3 != 0), "This value should not be 0"
-            sum3 = bin(self.ur.dynamicnet_history3 % 2 ** (self.ur.dynamicnet_count3)).count('1')/self.ur.dynamicnet_count3 if self.ur.dynamicnet_count1 else BayesStrategy.start_values[self.ruleCode]
+            sum3 = bin(self.ur.dynamicnet_history3 % 2 ** (self.ur.dynamicnet_count3)).count('1')/self.ur.dynamicnet_count3 if self.ur.dynamicnet_count2 else BayesStrategy.start_values[self.ruleCode]
         else:
             sum3 = bin(self.ur.dynamicnet_history3 % 2 ** (toconsider)).count('1')/toconsider
         value = sum1 * 0.25 + sum2 * 0.4 + sum3 * 0.35
@@ -442,7 +442,7 @@ class BayesStrategy:
         if len(weak) < 5: #if there are less than 5 rules, look for rules with a performance lower than 85%
             weaker = list()
             for rule in Net:
-                if rule.get_value() < .85 & i.get_value > 0.75 : #make sure it is not in list yet
+                if rule.get_value() < .85 and i.get_value() > 0.75 : #make sure it is not in list yet
                     weaker.append(rule.ur)
         #if there are still less than 5 rules just return as it is
         return weak
@@ -471,7 +471,7 @@ class BayesStrategy:
 
             #todo compare node with list from intro test -> is this the right way to check whether or not node was
             #activated by pretest?
-            if nextRule.ur.dynamicnet_count in UserPretest.objects.filter(user=self.user): # if the rule was already in the initial dynamic net, jus show the rule
+            if UserPretest.objects.filter(user=self.user,rule=nextRule.ur.rule,result=True): # if the rule was already in the initial dynamic net, jus show the rule
                 # introduce the rule
                 reminder = False
                 return nextRule.ur.rule, reminder
@@ -539,6 +539,7 @@ class BayesStrategy:
         # check the current rule
         currentRule = self.dynamicNet.current
         assert isinstance(currentRule, DynamicNode)
+        self.dynamicNet.updateNet()
 
         # if it is known, find a new rule
         if currentRule.known():
